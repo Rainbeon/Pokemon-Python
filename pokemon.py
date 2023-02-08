@@ -31,7 +31,7 @@ class Pokemon:
         print("=========================")
         print(self.name)
         print(*self.types, sep=", ")
-        print("HP: " + self.getHealthPercent())
+        print("HP: " + self.getHealthPercent() + "%")
 
 
 #def method():
