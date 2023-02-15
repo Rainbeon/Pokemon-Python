@@ -1,5 +1,6 @@
 import random
 import pokemon
+import pandas
 
 def getTeamString(team):
     teamString = ""

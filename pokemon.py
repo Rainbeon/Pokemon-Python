@@ -1,7 +1,15 @@
+import pandas
+
 class Pokemon:
     
     def __init__(self, name):
         self.name = name
+
+        pokemonSheet = pandas.read_csv("Pokemon.csv")
+
+        print(pokemonSheet.head(1))
+        sheetIndex = pokemonSheet.iloc[0]
+        print(sheetIndex)
 
         #Lookup from sheet
         self.types = ["Normal"]
