@@ -46,6 +46,41 @@ class Pokemon:
         self.moves = []
 
     def getNatureModifier(self, nature, statType):
+        if statType == "Attack":
+            if nature in ("Lonely", "Brave", "Adamant", "Naughty"):
+                return 1.1
+            if nature in ("Bold", "Timid", "Modest", "Calm"):
+                return 0.9
+            return 1
+        
+        if statType == "Defense":
+            if nature in ("Bold", "Relaxed", "Impish", "Lax"):
+                return 1.1
+            if nature in ("Lonely", "Hasty", "Mild", "Gentle"):
+                return 0.9
+            return 1
+        
+        if statType == "Special Attack":
+            if nature in ("Modest", "Mild", "Quiet", "Rash"):
+                return 1.1
+            if nature in ("Adamant", "Impish", "Jolly", "Careful"):
+                return 0.9
+            return 1
+        
+        if statType == "Special Defense":
+            if nature in ("Calm", "Gentle", "Sassy", "Careful"):
+                return 1.1
+            if nature in ("Naughty", "Lax", "Naive", "Rash"):
+                return 0.9
+            return 1
+        
+        if statType == "Speed":
+            if nature in ("Timid", "Hasty", "Jolly", "Naive"):
+                return 1.1
+            if nature in ("Brave", "Relaxed", "Quiet", "Sassy"):
+                return 0.9
+            return 1
+        
         return 1
 
     def calculateMaxHP(self, baseHP, level, IV, EV):
@@ -56,7 +91,7 @@ class Pokemon:
         natureModifier = self.getNatureModifier(nature, statType)
 
         stat = (math.floor(0.01 * (2 * baseStat + IV + math.floor(0.25 * EV)) * level) + 5) * natureModifier
-        return stat
+        return math.floor(stat)
 
     def getHealthPercent(self):
         return (str)(self.currentHP * 100 / self.maxHP)
