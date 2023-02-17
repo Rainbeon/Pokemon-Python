@@ -19,6 +19,7 @@ class Pokemon:
             self.possibleAbilities.append(pokemonData['Hidden Ability'])
 
         self.ability = self.possibleAbilities[0]
+        self.nature = "Serious"
 
         self.baseHP = pokemonData['HP']
         self.baseAttack = pokemonData['Attack']
@@ -33,18 +34,29 @@ class Pokemon:
         self.maxHP = self.calculateMaxHP(self.baseHP, self.level, self.IVs[0], self.EVs[0])
         self.currentHP = self.maxHP
 
+        self.Attack = self.calculateStat(self.baseAttack, "Attack", self.level, self.IVs[1], self.EVs[1], self.nature)
+        self.Defense = self.calculateStat(self.baseDefense, "Defense", self.level, self.IVs[2], self.EVs[2], self.nature)
+        self.SpecialAttack = self.calculateStat(self.baseSpAttack, "Special Attack", self.level, self.IVs[3], self.EVs[3], self.nature)
+        self.SpecialDefense = self.calculateStat(self.baseSpDefense, "Special Defense", self.level, self.IVs[4], self.EVs[4], self.nature)
+        self.Speed = self.calculateStat(self.baseSpeed, "Speed", self.level, self.IVs[5], self.EVs[5], self.nature)
+
         self.gender = "Genderless"
         self.level = "100" 
 
-        self.ability = ""
         self.moves = []
 
-    def calculateMaxHP(self, baseHP, level, IVs, EVs):
-        maxHP = math.floor(0.01 * (2 * baseHP + IVs + math.floor(0.25 * EVs)) * level) + level + 10
-        return maxHP
-    
-    def calculateStat(self, baseStat, EVs, IVs):
+    def getNatureModifier(self, nature, statType):
         return 1
+
+    def calculateMaxHP(self, baseHP, level, IV, EV):
+        maxHP = math.floor(0.01 * (2 * baseHP + IV + math.floor(0.25 * EV)) * level) + level + 10
+        return maxHP
+
+    def calculateStat(self, baseStat, statType, level, IV, EV, nature):
+        natureModifier = self.getNatureModifier(nature, statType)
+
+        stat = (math.floor(0.01 * (2 * baseStat + IV + math.floor(0.25 * EV)) * level) + 5) * natureModifier
+        return stat
 
     def getHealthPercent(self):
         return (str)(self.currentHP * 100 / self.maxHP)
@@ -60,6 +72,8 @@ class Pokemon:
         print(self.name)
         print(*self.types, sep=", ")
         print("HP: " + self.getHealthPercent() + "% (" + str(self.currentHP) + "/" + str(self.maxHP) + ")")
+        print("Ability: " + self.ability)
+        print("Atk " + str(self.Attack) + " / Def " + str(self.Defense) + " / SpA " + str(self.SpecialAttack) + " / SpD " + str(self.SpecialDefense) + " / Spe " + str(self.Speed))
 
 
 #def method():
