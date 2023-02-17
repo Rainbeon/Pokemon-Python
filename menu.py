@@ -49,8 +49,6 @@ def startMenu():
     print('3. Debug Battle!')
     print('4. Settings')
 
-    print(pokemonData.head(1))
-
     userInput = input()
 
     match userInput:
