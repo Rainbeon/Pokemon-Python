@@ -31,19 +31,23 @@ class Pokemon:
         self.IVs = [31, 31, 31, 31, 31, 31]
         self.EVs = [0, 0, 0, 0, 0, 0]
 
-        self.maxHP = self.calculateMaxHP(self.baseHP, self.level, self.IVs[0], self.EVs[0])
+        self.calculateAllStats()
+        
         self.currentHP = self.maxHP
 
+        self.gender = "Genderless"
+        self.level = "100" 
+
+        self.moves = []
+
+    def calculateAllStats(self):
+        self.maxHP = self.calculateMaxHP(self.baseHP, self.level, self.IVs[0], self.EVs[0])
         self.Attack = self.calculateStat(self.baseAttack, "Attack", self.level, self.IVs[1], self.EVs[1], self.nature)
         self.Defense = self.calculateStat(self.baseDefense, "Defense", self.level, self.IVs[2], self.EVs[2], self.nature)
         self.SpecialAttack = self.calculateStat(self.baseSpAttack, "Special Attack", self.level, self.IVs[3], self.EVs[3], self.nature)
         self.SpecialDefense = self.calculateStat(self.baseSpDefense, "Special Defense", self.level, self.IVs[4], self.EVs[4], self.nature)
         self.Speed = self.calculateStat(self.baseSpeed, "Speed", self.level, self.IVs[5], self.EVs[5], self.nature)
 
-        self.gender = "Genderless"
-        self.level = "100" 
-
-        self.moves = []
 
     def getNatureModifier(self, nature, statType):
         if statType == "Attack":
