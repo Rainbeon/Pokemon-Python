@@ -30,6 +30,8 @@ def debugBattleInit():
     Team2 = []
 
     Team1.append(createPokemon('Magnezone'))
+    Team1[0].addMove("Thunderbolt")
+    print(Team1[0].moves)
     #Team1.append(pokemon.Pokemon('Latias'))
 
     Team2.append(createPokemon('Tatsugiri'))
