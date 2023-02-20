@@ -32,7 +32,7 @@ class Pokemon:
         self.EVs = [0, 0, 0, 0, 0, 0]
 
         self.calculateAllStats()
-        
+
         self.currentHP = self.maxHP
 
         self.gender = "Genderless"
@@ -47,7 +47,6 @@ class Pokemon:
         self.SpecialAttack = self.calculateStat(self.baseSpAttack, "Special Attack", self.level, self.IVs[3], self.EVs[3], self.nature)
         self.SpecialDefense = self.calculateStat(self.baseSpDefense, "Special Defense", self.level, self.IVs[4], self.EVs[4], self.nature)
         self.Speed = self.calculateStat(self.baseSpeed, "Speed", self.level, self.IVs[5], self.EVs[5], self.nature)
-
 
     def getNatureModifier(self, nature, statType):
         if statType == "Attack":
@@ -96,6 +95,14 @@ class Pokemon:
 
         stat = (math.floor(0.01 * (2 * baseStat + IV + math.floor(0.25 * EV)) * level) + 5) * natureModifier
         return math.floor(stat)
+    
+    def addMove(self, moveName):
+        if len(self.moves) >= 4:
+            print(f"Could not add {moveName}, as the Pokemon already knows 4 moves.")
+            return
+
+        self.moves.append(moveName)
+        print(self.moves)
 
     def getHealthPercent(self):
         return (str)(self.currentHP * 100 / self.maxHP)
@@ -113,6 +120,20 @@ class Pokemon:
         print("HP: " + self.getHealthPercent() + "% (" + str(self.currentHP) + "/" + str(self.maxHP) + ")")
         print("Ability: " + self.ability)
         print("Atk " + str(self.Attack) + " / Def " + str(self.Defense) + " / SpA " + str(self.SpecialAttack) + " / SpD " + str(self.SpecialDefense) + " / Spe " + str(self.Speed))
+
+    def printMoves(self):
+        moveString = ""
+
+        for num in range(4):
+            if num < len(self.moves):
+                moveString += f"{num+1}. {self.moves[num]}"
+            else:
+                moveString += f"{num+1}. None"
+
+            if num < 3:
+                moveString += " | "
+
+        print(moveString)
 
 
 #def method():
