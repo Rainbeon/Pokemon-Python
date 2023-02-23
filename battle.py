@@ -66,6 +66,13 @@ def getActiveTeam(team1, team2, teamNum):
         return team1
     else:
         return team2
+    
+def teamIsFainted(team):
+    for pokemon in team:
+        if pokemon.fainted == False:
+            return False
+        
+    return True
 
 def battleInit(team1, team2):
     print('Battle start!')
@@ -104,4 +111,5 @@ def battleInit(team1, team2):
                 opposingPokemon = getOpposingPokemon(activePokemonList, activePokemon)
                 moves.useMove(activePokemon, chosenMove, opposingPokemon)
 
-        battleActive = False
+        if teamIsFainted(team1) | teamIsFainted(team2):
+            battleActive = False
