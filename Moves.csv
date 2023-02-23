@@ -1,0 +1,3 @@
+Name,Type,Category,Base Power,Accuracy,PP,Primary Effect,Secondary Effect,Secondary Chance
+Dragon Pulse,Dragon,Special,85,100,16,,,
+Thunderbolt,Electric,Special,90,100,24,,Paralysis,10
