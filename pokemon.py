@@ -34,6 +34,8 @@ class Pokemon:
         self.calculateAllStats()
 
         self.currentHP = self.maxHP
+        self.fainted = False
+
 
         self.gender = "Genderless"
         self.level = "100" 
@@ -134,6 +136,13 @@ class Pokemon:
                 moveString += " | "
 
         print(moveString)
+
+    def takeDamage(self, damageNum):
+        if damageNum > self.currentHP:
+            self.currentHP = 0
+            self.fainted = True
+        else:
+            self.currentHP -= damageNum
 
 
 #def method():
