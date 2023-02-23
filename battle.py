@@ -1,6 +1,9 @@
 import random
 import pokemon
 import pandas
+import moves
+
+actionQueue = []
 
 def getTeamString(team):
     teamString = ""
@@ -20,13 +23,43 @@ def printActions(selectedPokemon, team):
     print("=================")
     print(f"Actions for {selectedPokemon.name}:")
     selectedPokemon.printMoves()
+    #TODO: Print switch targets
     print("i. Show active pokemon information")
 
-def actionSelect(activePokemon, team):
-    printActions(activePokemon, team)
-    userInput = input()
+def createAction(pokemon, teamNum, actionType, actionParameters):
+    return [pokemon, teamNum, actionType, actionParameters]
 
-    return userInput
+def actionSelect(activePokemon, teamNumber, team):
+    actionSelected = False
+    while not actionSelected:
+        printActions(activePokemon, team)
+        userInput = input()
+
+        match userInput:
+            case '1' | '2' | '3' | '4':
+                return createAction(activePokemon, teamNumber, 'Move', int(userInput)-1)
+            case 'a':
+                return createAction(activePokemon, teamNumber, 'Switch', 0)
+            case 'b':
+                return createAction(activePokemon, teamNumber, 'Switch', 1)
+            case 'c':
+                return createAction(activePokemon, teamNumber, 'Switch', 2)
+            case 'd':
+                return createAction(activePokemon, teamNumber, 'Switch', 3)
+            case 'e':
+                return createAction(activePokemon, teamNumber, 'Switch', 4)
+            case 'f':
+                return createAction(activePokemon, teamNumber, 'Switch', 5)
+            case 'i':
+                activePokemon.printDetailed()
+            case _:
+                print("Unknown action!")
+
+def getOpposingPokemon(activePokemonList, attackerPokemon):
+    if activePokemonList[0] == attackerPokemon:
+        return activePokemonList[1]
+    else:
+        return activePokemonList[0]
 
 def battleInit(team1, team2):
     print('Battle start!')
@@ -34,8 +67,7 @@ def battleInit(team1, team2):
 
     battleActive = True
 
-    activePokemonIndex1 = 0
-    activePokemonIndex2 = 0
+    activePokemonList = [team1[0], team2[0]]
 
     print(team1[0].moves)
 
@@ -43,8 +75,25 @@ def battleInit(team1, team2):
     team2[0].printDetailed()
 
     while(battleActive):
-        userInput1 = actionSelect(team1[activePokemonIndex1], team1)
-        userInput2 = actionSelect(team2[activePokemonIndex2], team2)
+        userInput1 = actionSelect(activePokemonList[0], 1, team1)
+        actionQueue.append(userInput1)
 
-        print(userInput1)
+        userInput2 = actionSelect(activePokemonList[1], 2, team2)
+        actionQueue.append(userInput2)
+        
+        print(actionQueue)
+
+        while(len(actionQueue) > 0):
+            action = actionQueue.pop(0) #Does not care about speed/priority yet
+            activePokemon = action[0]
+            actionType = action[2]
+
+            if actionType == "Switch:":
+                print(f"{activePokemon.name} switched to !")
+
+            if actionType == "Move":
+                chosenMove = activePokemon.moves[action[3]]
+                opposingPokemon = getOpposingPokemon(activePokemonList, activePokemon)
+                moves.useMove(activePokemon, chosenMove, opposingPokemon) #Gets improper target right now
+
         battleActive = False
