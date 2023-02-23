@@ -61,6 +61,12 @@ def getOpposingPokemon(activePokemonList, attackerPokemon):
     else:
         return activePokemonList[0]
 
+def getActiveTeam(team1, team2, teamNum):
+    if teamNum == 1:
+        return team1
+    else:
+        return team2
+
 def battleInit(team1, team2):
     print('Battle start!')
     printTeams(team1, team2)
@@ -88,12 +94,14 @@ def battleInit(team1, team2):
             activePokemon = action[0]
             actionType = action[2]
 
-            if actionType == "Switch:":
-                print(f"{activePokemon.name} switched to !")
+            if actionType == "Switch":
+                activeTeam = getActiveTeam(team1, team2, action[2])
+                switchIndex = action[3]
+                print(f"{activePokemon.name} switched to {activeTeam[switchIndex].name}!")
 
             if actionType == "Move":
                 chosenMove = activePokemon.moves[action[3]]
                 opposingPokemon = getOpposingPokemon(activePokemonList, activePokemon)
-                moves.useMove(activePokemon, chosenMove, opposingPokemon) #Gets improper target right now
+                moves.useMove(activePokemon, chosenMove, opposingPokemon)
 
         battleActive = False
