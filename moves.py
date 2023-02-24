@@ -78,9 +78,12 @@ def dealDamage(attacker, moveData, target):
     if damage == 0:
         damage = 1
 
-    print(damage)
+    originalHpPercent = target.getHealthPercent()
+    target.takeDamage(damage)
+    newHpPercent = target.getHealthPercent()
+    lostHpPercent = round(originalHpPercent - newHpPercent, 1)
 
-
+    print(f"({target.name} lost {lostHpPercent}% of its health!)")
 
 def useMove(attacker, moveName, target):
     moveData = getMoveData(moveName)
@@ -88,7 +91,3 @@ def useMove(attacker, moveName, target):
 
     if not moveData['Category'] == 'Status':
         dealDamage(attacker, moveData, target)
-
-    
-
-    print(f"{target.name} was hit!")
