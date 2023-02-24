@@ -6,8 +6,164 @@ from decimal import Decimal, ROUND_HALF_DOWN
 
 movesTable = pandas.read_csv("Moves.csv")
 
+def applyModifier(targetTypes, typeName, effect):
+    if not typeName in targetTypes:
+        return 1
+    
+    if effect == "Weak":
+        return 2
+    elif effect == 'Resist':
+        return 1/2
+    elif effect == "Immune":
+        return 0
+    else:
+        print(f"applyModifier(): {effect} not recognized as a valid type effect, under {typeName}")
+
 def getEffectivenessModifier(moveType, targetTypes):
-    return 1
+    modifier = 1
+
+    match moveType:
+        case 'Normal':
+            modifier *= applyModifier(targetTypes, 'Rock', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Ghost', 'Immune')
+        case 'Fighting':
+            modifier *= applyModifier(targetTypes, 'Dark', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Ice', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Normal', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Rock', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Bug', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Fairy', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Flying', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Poison', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Psychic', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Ghost', 'Immune')
+        case 'Flying':
+            modifier *= applyModifier(targetTypes, 'Bug', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Fighting', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Grass', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Electric', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Rock', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+        case 'Poison':
+            modifier *= applyModifier(targetTypes, 'Fairy', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Grass', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Poison', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Ground', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Rock', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Ghost', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Immune')
+        case 'Ground':
+            modifier *= applyModifier(targetTypes, 'Electric', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Fire', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Poison', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Rock', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Bug', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Grass', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Flying', 'Immune')
+        case 'Rock':
+            modifier *= applyModifier(targetTypes, 'Bug', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Fire', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Flying', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Ice', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Fighting', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Ground', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+        case 'Bug':
+            modifier *= applyModifier(targetTypes, 'Dark', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Grass', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Psychic', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Fairy', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Fighting', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Fire', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Flying', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Ghost', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Poison', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+        case 'Ghost':
+            modifier *= applyModifier(targetTypes, 'Ghost', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Psychic', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Dark', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Normal', 'Immune')
+        case 'Steel':
+            modifier *= applyModifier(targetTypes, 'Fairy', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Ice', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Rock', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Electric', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Fire', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Water', 'Resist')
+        case 'Fire':
+            modifier *= applyModifier(targetTypes, 'Bug', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Grass', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Ice', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Dragon', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Fire', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Rock', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Water', 'Resist')
+        case 'Water':
+            modifier *= applyModifier(targetTypes, 'Fire', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Ground', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Rock' 'Weak')
+            modifier *= applyModifier(targetTypes, 'Dragon', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Grass', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Water', 'Resist')
+        case 'Grass':
+            modifier *= applyModifier(targetTypes, 'Ground', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Rock', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Water', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Bug', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Dragon', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Fire', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Flying', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Grass', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Poison', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+        case 'Electric':
+            modifier *= applyModifier(targetTypes, 'Flying', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Water', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Dragon', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Electric', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Grass', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Ground', 'Immune')
+        case 'Psychic':
+            modifier *= applyModifier(targetTypes, 'Fighting', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Poison', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Psychic', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Dark', 'Immune')
+        case 'Ice':
+            modifier *= applyModifier(targetTypes, 'Dragon', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Flying', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Grass', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Ground', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Fire', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Ice', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Water', 'Resist')
+        case 'Dragon':
+            modifier *= applyModifier(targetTypes, 'Dragon', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Fairy', 'Immune')
+        case 'Dark':
+            modifier *= applyModifier(targetTypes, 'Ghost', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Psychic', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Dark', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Fairy', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Fighting', 'Resist')
+        case 'Fairy':
+            modifier *= applyModifier(targetTypes, 'Dark', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Dragon', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Fighting', 'Weak')
+            modifier *= applyModifier(targetTypes, 'Fire', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Poison', 'Resist')
+            modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+
+    print(f"Modifier = {modifier}")
+    return modifier
 
 def getAttackDefendStats(attacker, target, moveCategory):
     if moveCategory == "Special":
@@ -26,6 +182,9 @@ def getRandomMod():
     return 1
 
 def getStabMod(attacker, moveData):
+    if moveData['Type'] in attacker.types:
+        return 1.5
+
     return 1
 
 def getBurnMod(attacker, moveData):
