@@ -161,6 +161,8 @@ def getEffectivenessModifier(moveType, targetTypes):
             modifier *= applyModifier(targetTypes, 'Fire', 'Resist')
             modifier *= applyModifier(targetTypes, 'Poison', 'Resist')
             modifier *= applyModifier(targetTypes, 'Steel', 'Resist')
+        case _:
+            print(f"getEffectivenessModifier(): Could not find type {moveType}")
 
     print(f"Modifier = {modifier}")
     return modifier
@@ -214,8 +216,6 @@ def dealDamage(attacker, moveData, target):
     burnMod = getBurnMod(attacker, moveData)
     otherMod = getOtherMod(attacker, moveData, target)
 
-    #damage = (((2 * attacker.level)/5 + 2) * int(moveData['Base Power']) * attackingStat / defendingStat) / 50 + 2
-
     damage = 2 * attacker.level
     damage = roundHalfDown(damage / 5) + 2
     damage = damage * moveData['Base Power']
@@ -231,8 +231,6 @@ def dealDamage(attacker, moveData, target):
     damage = math.floor(damage * typeEffectiveness) 
     damage = roundHalfDown(damage * burnMod)
     damage = roundHalfDown(damage * otherMod)
-
-    # damage = math.floor(damage)
 
     if damage == 0:
         damage = 1
