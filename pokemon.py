@@ -38,7 +38,7 @@ class Pokemon:
 
 
         self.gender = "Genderless"
-        self.level = "100" 
+        self.level = 100 
 
         self.moves = []
 
