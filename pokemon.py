@@ -107,7 +107,7 @@ class Pokemon:
         print(self.moves)
 
     def getHealthPercent(self):
-        return (str)(self.currentHP * 100 / self.maxHP)
+        return round(self.currentHP * 100 / self.maxHP, 1)
 
     def printBasic(self):
         print("=========================")
@@ -119,9 +119,9 @@ class Pokemon:
         print("=========================")
         print(self.name)
         print(*self.types, sep=", ")
-        print("HP: " + self.getHealthPercent() + "% (" + str(self.currentHP) + "/" + str(self.maxHP) + ")")
-        print("Ability: " + self.ability)
-        print("Atk " + str(self.Attack) + " / Def " + str(self.Defense) + " / SpA " + str(self.SpecialAttack) + " / SpD " + str(self.SpecialDefense) + " / Spe " + str(self.Speed))
+        print(f"HP: {self.getHealthPercent()}% ({self.currentHP}/{self.maxHP})")
+        print(f"Ability: {self.ability}")
+        print(f"Atk {self.Attack} / Def {self.Defense} / SpA {self.SpecialAttack} / SpD {self.SpecialDefense} / Spe {self.Speed}")
 
     def printMoves(self):
         moveString = ""
