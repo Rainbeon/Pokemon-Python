@@ -36,6 +36,7 @@ def debugBattleInit():
 
     Team2.append(createPokemon('Tatsugiri'))
     Team2[0].addMove("Dragon Pulse")
+    Team2[0].addMove("Hydro Pump")
     #Team2.append(pokemon.Pokemon('Chandelure'))
 
     battle.battleInit(Team1, Team2)
