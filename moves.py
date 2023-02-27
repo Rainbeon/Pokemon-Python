@@ -107,7 +107,7 @@ def getEffectivenessModifier(moveType, targetTypes):
         case 'Water':
             modifier *= applyModifier(targetTypes, 'Fire', 'Weak')
             modifier *= applyModifier(targetTypes, 'Ground', 'Weak')
-            modifier *= applyModifier(targetTypes, 'Rock' 'Weak')
+            modifier *= applyModifier(targetTypes, 'Rock', 'Weak')
             modifier *= applyModifier(targetTypes, 'Dragon', 'Resist')
             modifier *= applyModifier(targetTypes, 'Grass', 'Resist')
             modifier *= applyModifier(targetTypes, 'Water', 'Resist')
@@ -164,7 +164,7 @@ def getEffectivenessModifier(moveType, targetTypes):
         case _:
             print(f"getEffectivenessModifier(): Could not find type {moveType}")
 
-    print(f"Modifier = {modifier}")
+    #print(f"Modifier = {modifier}")
     return modifier
 
 def getAttackDefendStats(attacker, target, moveCategory):
@@ -242,9 +242,27 @@ def dealDamage(attacker, moveData, target):
 
     print(f"({target.name} lost {lostHpPercent}% of its health!)")
 
+def moveHits(accuracy):
+    accuracyRand = random.randint(0, 99)
+
+    print(accuracyRand)
+
+    if accuracyRand < accuracy:
+        return True
+
+    return False
+
 def useMove(attacker, moveName, target):
     moveData = getMoveData(moveName)
     print(f"{attacker.name} used {moveName}!")
+
+    if not moveHits(moveData['Accuracy']):
+        print('But it missed!')
+        return
+    
+    if target.fainted == True:
+        print('But it failed!')
+        return
 
     if not moveData['Category'] == 'Status':
         dealDamage(attacker, moveData, target)
